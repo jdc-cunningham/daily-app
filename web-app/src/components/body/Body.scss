@@ -40,15 +40,40 @@
   min-height: 150px;
 }
 
-.daily-app__body-interfaces button {
+.daily-app__body-interfaces button.main-orange {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: orange;
+  background-color: chocolate;
   font-size: 1.25rem;
   min-width: 150px;
   height: 150px;
   border-radius: 75px;
   border: 0;
+}
+
+.daily-app__body-interfaces input {
+  font-size: 1.25rem;
+  padding: 0.25rem;
+  background-color: white;
+  color: #282828;
+}
+
+.daily-app__body-interfaces-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.daily-app__body-interfaces-group button {
+  margin-top: 0.5rem;
+  background-color: chocolate;
+  color: white;
+  border: 0;
+  border-radius: 6px;
+  font-size: 1.25rem;
+  font-weight: bold;
+  padding: 0.25rem 0.5rem;
 }

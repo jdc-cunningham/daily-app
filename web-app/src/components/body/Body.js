@@ -1,9 +1,10 @@
-import React, { useState, SetStateAction, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Body.scss';
 import axios from 'axios';
 
 const Body = () => {
   const [displayInfo, setDisplayInfo] = useState({});
+  const [weight, setWeight] = useState(null);
 
   const wokeUp = () => {
     axios.post(`${process.env.REACT_APP_API_BASE}/insert-day-wake-up-timestamp`, {
@@ -22,8 +23,26 @@ const Body = () => {
       });
   }
 
+  const saveWeight = (weight) => {
+    axios.post(`${process.env.REACT_APP_API_BASE}/insert-day-weight`, {
+      weight,
+      date: `${formatDate()} 00:00:00`
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          setTimeout(() => {
+            window.location.reload(true);
+          }, 250);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   const ButtonInput = (
     <button
+      className="main-orange"
       type="button"
       onClick={() => wokeUp()}
     >
@@ -31,8 +50,27 @@ const Body = () => {
     </button>
   );
 
-  const WeightInput = (
-    <input type="number" placeholder="weight"/>
+  const WeightInputUI = (
+    <div className="daily-app__body-interfaces-group">
+      <input
+        type="number"
+        placeholder="weight"
+        onChange={(e) => {
+          if (e.target.value.length <= 3) {
+            setWeight(e.target.value);
+          }
+        }}
+        value={weight}
+      />
+      <button
+        type="button"
+        onClick={() => {
+          saveWeight(weight)
+        }}
+      >
+        Save
+      </button>
+    </div>
   );
 
   // straight outta SO
@@ -56,7 +94,7 @@ const Body = () => {
 
   const daysSinceStart = () => {
     return Math.floor(
-      (Date.now() - 1654800933538) / 86400
+      (((Date.now() - 1654800933538)) / 1000) / 86400
     );
   }
 
@@ -79,7 +117,7 @@ const Body = () => {
 
           setDisplayInfo(prevState => ({
             ...prevState,
-            daysSince: daysSinceStart,
+            daysSince: daysSinceStart(),
             prettyDate: `${prettyDate()} ${formatDate(true)}`,
             prevDebt: '',
             currentDebt: '',
@@ -110,7 +148,7 @@ const Body = () => {
       </div>
       <div className="daily-app__body-interfaces">
         {!displayInfo.wakeUpTime && ButtonInput}
-        {displayInfo.wakeUpTime && !displayInfo.weightSaved && WeightInput}
+        {displayInfo.wakeUpTime && !displayInfo.weightSaved && WeightInputUI}
       </div>
     </div>
   );
