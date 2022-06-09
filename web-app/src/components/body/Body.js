@@ -5,8 +5,30 @@ import axios from 'axios';
 const Body = () => {
   const [displayInfo, setDisplayInfo] = useState({});
 
+  const wokeUp = () => {
+    axios.post(`${process.env.REACT_APP_API_BASE}/insert-day-wake-up-timestamp`, {
+      date: `${formatDate()} 00:00:00`,
+      timestamp: Date.now()
+    })
+      .then((res) => {
+        if (res.status === 201) {
+          setTimeout(() => {
+            window.location.reload(true);
+          }, 250);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   const ButtonInput = (
-    <button type="button">Woke up</button>
+    <button
+      type="button"
+      onClick={() => wokeUp()}
+    >
+      Woke up
+    </button>
   );
 
   const WeightInput = (
@@ -51,7 +73,6 @@ const Body = () => {
       date: `${formatDate()} 00:00:00`
     })
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
           const { data } = res.data;
           const firstRow = data[0];
