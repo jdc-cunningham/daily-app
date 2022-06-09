@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Body.scss';
+import axios from 'axios';
 
 const Body = () => {
   const [displayInfo, setDisplayInfo] = useState({
@@ -48,7 +49,18 @@ const Body = () => {
 
     // prints date & time in YYYY-MM-DD HH:MM:SS format
     return year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
-}
+  }
+
+  // first run
+  useEffect(() => {
+    axios.get(`${process.env.REACT_APP_API_BASE}/get-day-entry`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <div className="daily-app__body">

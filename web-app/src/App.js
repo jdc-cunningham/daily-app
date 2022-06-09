@@ -5,8 +5,8 @@ import Body from './components/body/Body';
 function App() {
   return (
     <div className="daily-app">
-      <Navbar />
-      <Body />
+      <Navbar/>
+      <Body/>
     </div>
   );
 }

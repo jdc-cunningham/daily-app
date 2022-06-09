@@ -45,7 +45,7 @@ const getDayEntry = (req, res) => {
         console.log(err);
         res.status(400).json({ok: false});
       } else {
-        res.status(200).json({ok: qRes});
+        res.status(200).json({data: qRes});
       }
     }
   );
