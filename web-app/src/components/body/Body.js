@@ -138,6 +138,7 @@ const Body = () => {
           <>
             <h1>Day {displayInfo.daysSince}</h1>
             <h2>{displayInfo.prettyDate}</h2>
+            {displayInfo.weightSaved && <h2>Weight: {displayInfo.weightSaved} lbs</h2>}
             {displayInfo.prevDebt && <h2>Previous debt: <span className="orange">{displayInfo.prevDebt}</span></h2>}
             {displayInfo.currentDebt && <h2>Current debt: <span className="red">{displayInfo.currentDebt}</span></h2>}
           </>
