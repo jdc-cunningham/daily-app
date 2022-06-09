@@ -1,0 +1,46 @@
+.daily-app__body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+}
+
+.daily-app__body-info h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.daily-app__body-info h2 {
+  font-size: 1.25rem;
+}
+
+.daily-app__body-info h2:not(:first-of-type) {
+  margin-top: 0.5rem;
+}
+
+.daily-app__body-info h2 span.red {
+  color: red;
+}
+
+.daily-app__body-interfaces {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4rem;
+  min-height: 150px;
+}
+
+.daily-app__body-interfaces button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: orange;
+  font-size: 1.25rem;
+  min-width: 150px;
+  height: 150px;
+  border-radius: 75px;
+  border: 0;
+}

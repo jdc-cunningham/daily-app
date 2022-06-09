@@ -1,0 +1,18 @@
+.daily-app__navbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  width: 100%;
+  border-bottom: 1px solid #dcdcdc;
+  padding: 0.5rem;
+  flex: 0;
+}
+
+.daily-app__navbar button {
+  background-color: white;
+  color: #282828;
+  border: 0;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
