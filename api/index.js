@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 5020;
 
-const { addWakeUpTimeStamp, addWeight, pullDayEntry } = require('./methods');
+const { addWakeUpTimeStamp, addWeight, getDayEntry } = require('./methods');
 
 // CORs
 app.use((req, res, next) => {
