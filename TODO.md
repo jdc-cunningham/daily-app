@@ -1,8 +1,8 @@
 - [ ] web app
-  - [ ] build layout
+  - [x] build layout
   - [ ] plug into API
 - [ ] api
-  - [ ] design/create db schema
-  - [ ] create API endpoints
+  - [x] design/create db schema
+  - [x] create API endpoints
   - [ ] interface with google spreadsheet
     - simple GET request to pull down latest column (count upwards until blank)
