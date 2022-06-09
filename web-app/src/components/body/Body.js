@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, SetStateAction, useEffect } from 'react';
 import './Body.scss';
 import axios from 'axios';
 
@@ -19,41 +19,30 @@ const Body = () => {
 
   const WeightInput = (
     <input type="number" placeholder="weight"/>
-  )
+  );
 
-  const getDateTime = () => {
-    // from https://stackoverflow.com/questions/8083410/how-can-i-set-the-default-timezone-in-node-js
-    let date_ob = new Date();
+  // straight outta SO
+  // https://stackoverflow.com/questions/23593052/format-javascript-date-as-yyyy-mm-dd
+  const formatDate = () => {
+    var d = new Date(),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
 
-    // current date
-    // adjust 0 before single digit date
-    let date = ("0" + date_ob.getDate()).slice(-2);
+    if (month.length < 2) 
+        month = '0' + month;
 
-    // current month
-    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+    if (day.length < 2) 
+        day = '0' + day;
 
-    // current year
-    let year = date_ob.getFullYear();
-
-    // current hours
-    let hours = date_ob.getHours();
-
-    // current minutes
-    let minutes = date_ob.getMinutes();
-
-    // current seconds
-    let seconds = date_ob.getSeconds();
-
-    // prints date in YYYY-MM-DD format
-    // console.log(year + "-" + month + "-" + date);
-
-    // prints date & time in YYYY-MM-DD HH:MM:SS format
-    return year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
-  }
+    return [year, month, day].join('-');
+  };
 
   // first run
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_BASE}/get-day-entry`)
+    axios.post(`${process.env.REACT_APP_API_BASE}/get-day-entry`, {
+      date: `${formatDate()} 00:00:00`
+    })
       .then((res) => {
         console.log(res);
       })
@@ -76,6 +65,6 @@ const Body = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Body;
