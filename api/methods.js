@@ -6,7 +6,7 @@ const addWakeUpTimeStamp = async (req, res) => {
   return new Promise(resolve => {
     // ooh fancy, no this is actually bad
     pool.query(
-      `${'INSERT INTO entries SET date = ?, timestamp = ?'}`,
+      `${'INSERT INTO entries SET date = ?, wake_up_time = ?'}`,
         [date, timestamp],
       (err, qRes) => {
         if (err) {
