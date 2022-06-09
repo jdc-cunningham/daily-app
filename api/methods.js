@@ -3,10 +3,9 @@ const { pool } = require('./dbConnect');
 const addWakeUpTimeStamp = (req, res) => {
   const { date, timestamp } = req.body;
 
-  // ooh fancy, no this is actually bad
   pool.query(
     `${'INSERT INTO entries SET date = ?, wake_up_time = ?'}`,
-      [date, timestamp],
+    [date, timestamp],
     (err, qRes) => {
       if (err) {
         console.log(err);
@@ -21,10 +20,9 @@ const addWakeUpTimeStamp = (req, res) => {
 const addWeight = (req, res) => {
   const { weight, date } = req.body;
 
-  // ooh fancy, no this is actually bad
   pool.query(
     `${'UPDATE entries SET weight = ? WHERE date = ?'}`,
-      [weight, date],
+    [weight, date],
     (err, qRes) => {
       if (err) {
         console.log(err);
@@ -37,7 +35,21 @@ const addWeight = (req, res) => {
 }
 
 const getDayEntry = (req, res) => {
+  const { date } = req.body;
 
+  pool.query(
+    `${'SELECT wake_up_time, weight, previous_debt, current_debt from entries WHERE date = ?'}`,
+    [date],
+    (err, qRes) => {
+      if (err) {
+        console.log(err);
+        res.status(400).json({ok: false});
+      } else {
+        console.log(qRes);
+        res.status(200).json({ok: qRes.rows});
+      }
+    }
+  );
 };
 
 module.exports = {

@@ -30,7 +30,7 @@ app.get('/',(req, res) => {
 
 app.post('/insert-day-wake-up-timestamp', addWakeUpTimeStamp);
 app.post('/insert-day-weight', addWeight);
-app.get('/get-day-entry', getDayEntry);
+app.get('/get-day-entry', getDayEntry); // includes spreadsheet info
 
 app.listen(port, () => {
   console.log(`App running... on port ${port}`);
