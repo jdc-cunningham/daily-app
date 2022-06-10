@@ -46,7 +46,7 @@ const addWeight = (req, res) => {
 const _getTodayRow = (date) => {
   return new Promise(resolve => {
     pool.query(
-      `${'SELECT id WHERE date = ?'}`,
+      `${'SELECT id FROM entries WHERE date = ?'}`,
       [date],
       (err, qRes) => {
         if (err) {
@@ -67,12 +67,13 @@ const getDayEntry = async (req, res) => {
   if (!todayRowId) {
     console.log('failed to get today row');
     res.status(400).json({ok: false});
+    return;
   }
 
   console.log(todayRowId);
 
   pool.query(
-    `${'SELECT wake_up_time, weight, current_debt from entries WHERE id >= ?'}`,
+    `${'SELECT wake_up_time, weight, current_debt FROM entries WHERE id >= ?'}`,
     [date, todayRowId - 1],
     (err, qRes) => {
       if (err) {
