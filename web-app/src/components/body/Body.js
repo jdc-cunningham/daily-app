@@ -98,6 +98,9 @@ const Body = () => {
     );
   }
 
+  const canEatSnack = () => (((Date.now()/1000) - displayInfo.wakeUpTime) / 28800) > 1;
+  const canEatMeal = () => (((Date.now()/1000) - displayInfo.wakeUpTime) / 39600) > 1;
+
   const prettyDate = () => {
     // https://stackoverflow.com/a/24998705/2710227
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -141,6 +144,8 @@ const Body = () => {
             {displayInfo.weightSaved && <h2>Weight: {displayInfo.weightSaved} lbs</h2>}
             {displayInfo.prevDebt && <h2>Previous debt: <span className="orange">{displayInfo.prevDebt}</span></h2>}
             {displayInfo.currentDebt && <h2>Current debt: <span className="red">{displayInfo.currentDebt}</span></h2>}
+            {(canEatSnack() && !canEatMeal()) && <h2 className="green">Snack time boyo</h2>}
+            {canEatMeal() && <h2 className="green">Feeding time boyo</h2>}
           </>
         }
         {!displayInfo.wakeUpTime &&
