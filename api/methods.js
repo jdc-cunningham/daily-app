@@ -47,7 +47,7 @@ const getDayEntry = (req, res) => {
   const { date } = req.body;
 
   pool.query(
-    `${'SELECT wake_up_time, weight, previous_debt, current_debt from entries WHERE date = ?'}`,
+    `${'SELECT wake_up_time, weight, current_debt from entries WHERE date = ?'}`,
     [date],
     (err, qRes) => {
       if (err) {
