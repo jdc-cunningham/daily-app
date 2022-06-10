@@ -71,7 +71,7 @@ const getDayEntry = async (req, res) => {
   }
 
   pool.query(
-    `${'SELECT wake_up_time, weight, current_debt FROM entries WHERE id >= ?'}`,
+    `${'SELECT wake_up_time, weight, current_debt FROM entries WHERE id >= ? ORDER BY id DESC'}`,
     [parseInt(todayRowId[0]?.id) - 1],
     (err, qRes) => {
       if (err) {
