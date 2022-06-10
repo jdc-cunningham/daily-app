@@ -70,11 +70,9 @@ const getDayEntry = async (req, res) => {
     return;
   }
 
-  console.log(todayRowId);
-
   pool.query(
     `${'SELECT wake_up_time, weight, current_debt FROM entries WHERE id >= ?'}`,
-    [date, todayRowId - 1],
+    [date, todayRowId?.id - 1],
     (err, qRes) => {
       if (err) {
         console.log(err);
