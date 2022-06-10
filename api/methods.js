@@ -51,9 +51,9 @@ const _getTodayRow = (date) => {
       (err, qRes) => {
         if (err) {
           console.log(err);
-          return false;
+          resolve(false);
         } else {
-          return qRes;
+          resolve(qRes);
         }
       }
     );
@@ -63,6 +63,11 @@ const _getTodayRow = (date) => {
 const getDayEntry = async (req, res) => {
   const { date } = req.body;
   const todayRowId = await _getTodayRow(date);
+
+  if (!todayRowId) {
+    console.log('failed to get today row');
+    res.status(400).json({ok: false});
+  }
 
   console.log(todayRowId);
 
