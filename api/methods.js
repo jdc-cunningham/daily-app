@@ -4,8 +4,8 @@ const addWakeUpTimeStamp = (req, res) => {
   const { date, timestamp } = req.body;
 
   pool.query(
-    `${'INSERT INTO entries SET wake_up_time = ? WHERE date = ?'}`,
-    [timestamp, date],
+    `${'INSERT INTO entries SET date = ?, wake_up_time = ?'}`,
+    [date, timestamp],
     (err, qRes) => {
       if (err) {
         console.log(err);
