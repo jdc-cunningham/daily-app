@@ -43,12 +43,32 @@ const addWeight = (req, res) => {
   );
 };
 
-const getDayEntry = (req, res) => {
+const _getTodayRow = (date) => {
+  return new Promise(resolve => {
+    pool.query(
+      `${'SELECT id WHERE date = ?'}`,
+      [date],
+      (err, qRes) => {
+        if (err) {
+          console.log(err);
+          return false;
+        } else {
+          return qRes;
+        }
+      }
+    );
+  });
+}
+
+const getDayEntry = async (req, res) => {
   const { date } = req.body;
+  const todayRowId = await _getTodayRow(date);
+
+  console.log(todayRowId);
 
   pool.query(
-    `${'SELECT wake_up_time, weight, current_debt from entries WHERE date = ?'}`,
-    [date],
+    `${'SELECT wake_up_time, weight, current_debt from entries WHERE id >= ?'}`,
+    [date, todayRowId - 1],
     (err, qRes) => {
       if (err) {
         console.log(err);
