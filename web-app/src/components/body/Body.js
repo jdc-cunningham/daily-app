@@ -108,6 +108,27 @@ const Body = () => {
     return days[d.getDay()];
   }
 
+  const betterWorseColorWrapper = (curVal, prevVal) => {
+    if (typeof curVal === 'number') {
+      const diff = parseInt(prevVal) - parseInt(curVal);
+
+      if (diff > 0) {
+        return <span className="green">{curVal}</span>
+      } else {
+        return <span className="red">{curVal}</span>
+      }
+    } else {
+      const curDebtVal = parseFloat(curVal.split('$')[1]);
+      const prevDebtVal = parseFloat(prevVal.split('$')[1]);
+
+      if (prevDebtVal - curDebtVal > 0) {
+        return <span className="green">{curVal}</span>
+      } else {
+        return <span className="red">{curVal}</span>
+      }
+    }
+  }
+
   // first run
   useEffect(() => {
     axios.post(`${process.env.REACT_APP_API_BASE}/get-day-entry`, {
@@ -116,16 +137,18 @@ const Body = () => {
       .then((res) => {
         if (res.status === 200) {
           const { data } = res.data;
-          const firstRow = data[0];
+          const todayRow = data[0];
+          const yesterdayRow = data[1];
 
           setDisplayInfo(prevState => ({
             ...prevState,
             daysSince: daysSinceStart(),
             prettyDate: `${prettyDate()} ${formatDate(true)}`,
-            prevDebt: '',
-            currentDebt: '',
-            wakeUpTime: firstRow?.wake_up_time,
-            weightSaved: firstRow?.weight
+            prevDebt: yesterdayRow?.current_debt,
+            currentDebt: todayRow?.current_debt,
+            wakeUpTime: todayRow?.wake_up_time,
+            prevWeight: yesterdayRow?.weight,
+            currentWeight: todayRow?.weight
           }));
         }
       })
@@ -141,9 +164,10 @@ const Body = () => {
           <>
             <h1>Day {displayInfo.daysSince}</h1>
             <h2>{displayInfo.prettyDate}</h2>
-            {displayInfo.weightSaved && <h2>Weight: {displayInfo.weightSaved} lbs</h2>}
-            {displayInfo.prevDebt && <h2>Previous debt: <span className="orange">{displayInfo.prevDebt}</span></h2>}
-            {displayInfo.currentDebt && <h2>Current debt: <span className="red">{displayInfo.currentDebt}</span></h2>}
+            {displayInfo.prevWeight && <h2>Weight yesterday: {displayInfo.prevWeight} lbs</h2>}
+            {displayInfo.currentWeight && <h2>Weight: {betterWorseColorWrapper(displayInfo.currentWeight, displayInfo.prevWeight)} lbs</h2>}
+            {displayInfo.prevDebt && <h2>Previous debt: {displayInfo.prevDebt}</h2>}
+            {displayInfo.currentDebt && <h2>Current debt: {betterWorseColorWrapper(displayInfo.currentDebt, displayInfo.prevDebt)}</h2>}
             {(canEatSnack() && !canEatMeal()) && <h2 className="green">Snack time boyo</h2>}
             {canEatMeal() && <h2 className="green">Feeding time boyo</h2>}
           </>
@@ -154,7 +178,7 @@ const Body = () => {
       </div>
       <div className="daily-app__body-interfaces">
         {!displayInfo.wakeUpTime && ButtonInput}
-        {displayInfo.wakeUpTime && !displayInfo.weightSaved && WeightInputUI}
+        {displayInfo.wakeUpTime && !displayInfo.currentWeight && WeightInputUI}
       </div>
     </div>
   );
