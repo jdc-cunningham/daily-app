@@ -17,6 +17,7 @@ const addWakeUpTimeStamp = async (req, res) => {
     latestDebt = latestDebtRes[0][0];
   } else {
     res.status(400).json({ok: false});
+    return;
   }
 
   pool.query(
