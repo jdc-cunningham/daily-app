@@ -10,14 +10,17 @@ const _getLatestDebtFromSpreadsheet = async () => {
 
 const addWakeUpTimeStamp = async (req, res) => {
   const { date, timestamp } = req.body;
-  const latestDebtRow = await _getLatestDebtFromSpreadsheet(); // not an array it's a string
-  const latestDebt = latestDebtRow
-    .replace(/\s/g, "")
-    .replace(/\'/g, "")
-    .replace(/[\])}[{(]/g, '');
+  const latestDebtRes = await _getLatestDebtFromSpreadsheet();
+  let latestDebt;
+  
+  if (latestDebtRes) {
+    latestDebt = latestDebtRes[0][0];
+  } else {
+    res.status(400).json({ok: false});
+  }
 
   pool.query(
-    `${'INSERT INTO entries SET date = ?, wake_up_time = ?, current_debt'}`,
+    `${'INSERT INTO entries SET date = ?, wake_up_time = ?, current_debt = ?'}`,
     [date, timestamp, latestDebt],
     (err, qRes) => {
       if (err) {
